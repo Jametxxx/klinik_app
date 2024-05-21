@@ -1,7 +1,12 @@
-import 'package:flutter/material.dart'; // Mengimpor package flutter/material.dart
+import 'package:flutter/material.dart';
+import '../widget/sidebar.dart';
+import '../model/poli.dart';
+import 'poli_detail.dart';
+import 'poli_item.dart';
+import 'poli_form.dart';
 
 class PoliPage extends StatefulWidget {
-  const PoliPage({Key? key}) : super(key: key);
+  const PoliPage({super.key});
 
   @override
   State<PoliPage> createState() => _PoliPageState();
@@ -11,38 +16,25 @@ class _PoliPageState extends State<PoliPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Sidebar(),
       appBar: AppBar(
-          title: const Text(
-              "Data Poli")), // Menampilkan judul "Data Poli" pada AppBar
+        title: const Text("Data Poli"),
+        actions: [
+          GestureDetector(
+            child: const Icon(Icons.add),
+            onTap: () {
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (context) => PoliForm()));
+            },
+          )
+        ],
+      ),
       body: ListView(
-        children: const [
-          widget(
-            // Widget 'widget' tidak valid, mungkin terjadi kesalahan penulisan
-            child: Card(
-              child: ListTile(
-                title: const Text(
-                    "Poli Anak"), // Menampilkan teks "Poli Anak" pada ListTile
-              ),
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: const Text(
-                  "Poli Kandungan"), // Menampilkan teks "Poli Kandungan" pada ListTile
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: const Text(
-                  "Poli Gigi"), // Menampilkan teks "Poli Gigi" pada ListTile
-            ),
-          ),
-          Card(
-            child: ListTile(
-              title: const Text(
-                  "Poli THT"), // Menampilkan teks "Poli THT" pada ListTile
-            ),
-          ),
+        children: [
+          PoliItem(poli: Poli(namaPoli: "Poli Anak")),
+          PoliItem(poli: Poli(namaPoli: "Poli Kandungan")),
+          PoliItem(poli: Poli(namaPoli: "Poli Gigi")),
+          PoliItem(poli: Poli(namaPoli: "Poli THT")),
         ],
       ),
     );

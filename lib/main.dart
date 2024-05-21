@@ -6,14 +6,15 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
   // Widget ini adalah root dari aplikasi Anda.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Klinik',
+      home: Beranda(),
         // Ini adalah tema dari aplikasi Anda.
         //
         // COBA INI: Coba jalankan aplikasi Anda dengan "flutter run". Anda akan melihat

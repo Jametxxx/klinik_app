@@ -1,11 +1,12 @@
-import 'package:flutter/material.dart'; // Mengimpor package flutter/material.dart
-import '../model/poli.dart'; // Mengimpor file poli.dart yang berisi definisi class Poli
-import 'poli_detail.dart'; // Mengimpor file poli_detail.dart
+import 'package:flutter/material.dart';
+import 'poli_page.dart';
+import 'poli_update_form.dart';
+import '../model/poli.dart';
 
 class PoliDetail extends StatefulWidget {
-  final Poli poli; // Variabel poli dengan tipe data Poli
+  final Poli poli;
 
-  const PoliDetail({Key? key, required this.poli}) : super(key: key);
+  const PoliDetail({super.key, required this.poli});
 
   @override
   State<PoliDetail> createState() => _PoliDetailState();
@@ -15,41 +16,68 @@ class _PoliDetailState extends State<PoliDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: Text(
-              "Detail Poli")), // Menampilkan judul "Detail Poli" pada AppBar
+      appBar: AppBar(title: Text("Detail Poli")),
       body: Column(
         children: [
-          SizedBox(height: 20), // Membuat jarak vertikal sebesar 20
+          SizedBox(height: 20),
           Text(
-            "Nama Poli : ${widget.poli.namaPoli}", // Menampilkan teks "Nama Poli : {namaPoli}"
-            style: TextStyle(fontSize: 20), // Mengatur ukuran font menjadi 20
+            "Nama Poli : ${widget.poli.namaPoli}",
+            style: TextStyle(fontSize: 20),
           ),
-          SizedBox(height: 20), // Membuat jarak vertikal sebesar 20
+          SizedBox(height: 20),
           Row(
-            mainAxisAlignment: MainAxisAlignment
-                .spaceEvenly, // Mengatur posisi widget dalam Row menjadi rata tengah
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              ElevatedButton(
-                onPressed: () {}, // Mengatur aksi ketika tombol "Ubah" ditekan
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors
-                        .green), // Mengatur latar belakang tombol menjadi hijau
-                child:
-                    const Text("Ubah"), // Menampilkan teks "Ubah" pada tombol
-              ),
-              ElevatedButton(
-                onPressed: () {}, // Mengatur aksi ketika tombol "Hapus" ditekan
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors
-                        .red), // Mengatur latar belakang tombol menjadi merah
-                child:
-                    const Text("Hapus"), // Menampilkan teks "Hapus" pada tombol
-              ),
+              _tombolUbah(),
+              _tombolHapus(),
             ],
-          ),
+          )
         ],
       ),
     );
+  }
+
+  _tombolUbah() {
+    return ElevatedButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PoliUpdateForm(poli: widget.poli)));
+        },
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+        child: const Text("Ubah"));
+  }
+
+  _tombolHapus() {
+    return ElevatedButton(
+        onPressed: () {
+          AlertDialog alertDialog = AlertDialog(
+            content: const Text("Yakin ingin menghapus data ini?"),
+            actions: [
+              // tombol ya
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => PoliPage()));
+                },
+                child: const Text("YA"),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              ),
+              // tombol batal
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text("Tidak"),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
+              )
+            ],
+          );
+          showDialog(context: context, builder: (context) => alertDialog);
+        },
+        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+        child: const Text("Hapus"));
   }
 }
